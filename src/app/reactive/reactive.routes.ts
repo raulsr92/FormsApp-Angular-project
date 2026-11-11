@@ -28,7 +28,7 @@ export const reactiveRoutes: Routes = [
         redirectTo: 'basic'
       }
      ]
-
   }
-
 ];
+
+export default reactiveRoutes
