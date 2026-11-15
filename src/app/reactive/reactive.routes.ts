@@ -10,7 +10,7 @@ export const reactiveRoutes: Routes = [
      children:[
       {
         path:'basic',
-        title:'Básico',
+        title:'Básicos',
         component: BasicPage
       },
       {
