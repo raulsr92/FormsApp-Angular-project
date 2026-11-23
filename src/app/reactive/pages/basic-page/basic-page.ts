@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormUtils } from '../../../utils/form-utils';
 
 @Component({
   selector: 'app-basic-page',
@@ -15,6 +16,8 @@ export class BasicPage {
 
   private formBuilder = inject(FormBuilder);
 
+  formUtils = FormUtils;
+
   myForm:FormGroup = this.formBuilder.group(
     {
       name: ['', [Validators.required, Validators.minLength(3)] ],
@@ -23,59 +26,18 @@ export class BasicPage {
     }
   )
 
-  isValidField(fieldName: string):boolean|null{
-
-    return (
-        this.myForm.controls[fieldName].errors  &&
-        this.myForm.controls[fieldName].touched
-      );
-  }
-
-  getFieldError(fieldName: string):string|null{
-
-    if(!this.myForm.controls[fieldName]) return null;
-
-    const errorsObject = this.myForm.controls[fieldName].errors ?? {}
-    //recorrer objeto de errores
-    for (const key of Object.keys(errorsObject)) {
-      switch(key){
-        case 'required':
-          return 'El campo es requerido.';
-        case 'minlength':
-          return `Debe tener un mínimo de ${errorsObject['minlength']['requiredLength']} caracteres.`;
-        case 'min':
-          return `El valor mínimo es ${errorsObject['min']['min']}.`;
-      }
-    }
-
-    return null
-  }
-
   onSave( ){
-
     if (this.myForm.invalid) {
       this.myForm.markAllAsTouched()
       return;
     }
-
     console.log(this.myForm.value)
 
-    //Resetar valores
-
+    //Resetear valores
       this.myForm.reset({
         price: 0,
         inStorage: 0
       })
   }
 
-
-  /*
-  myForm = new FormGroup(
-    {
-      name: new FormControl(''),
-      price: new FormControl(0),
-      inStorage: new FormControl(0)
-    }
-  )
-  */
 }
