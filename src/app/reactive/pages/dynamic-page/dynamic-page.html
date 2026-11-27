@@ -10,9 +10,15 @@
             <input class="form-control"
                    formControlName="name"
                    placeholder="Nombre de la persona">
-            <span class="form-text text-danger">
-                   error message
-            </span>
+
+            @if (formUtils.isValidField(myForm,'name')) {
+              <span class="form-text text-danger">
+                    {{
+                      formUtils.getFieldError(myForm,'name')
+                    }}
+              </span>
+            }
+
         </div>
     </div>
 
@@ -53,9 +59,19 @@
                         Eliminar
                     </button>
                   </div>
-                  <span class="form-text text-danger">
-                    Este campo es requerido
-                  </span>
+                  <!-- Aquí va el mensaje de validación  -->
+
+                    @if (formUtils.isValidFieldInArray(favoriteGames,i)) {
+
+                      <span class="form-text text-danger">
+                        {{
+
+                          formUtils.getFieldErrorInArray(favoriteGames,i)
+
+                        }}
+                      </span>
+                    }
+
               </div>
             }
         </div>
@@ -83,6 +99,25 @@
 <span>Value</span>
 <pre>{{ myForm.value | json }}</pre>
 <br>
+
+<span>Cantidad Controles</span>
+<pre>{{ favoriteGames.controls.length| json }}</pre>
+
+<span class="text-danger">Errores del array:</span>
+<pre>{{ favoriteGames.errors| json }}</pre>
+<br>
+
+<span class="text-danger">Errores en campos del array:</span>
+   @for (favoriteGame of favoriteGames.controls; track $index ; let i = $index) {
+    <pre>{{
+
+        favoriteGame.errors| json
+
+      }}</pre>
+   }
+
+<br>
+
 
 <span>Agregar Juego</span>
 <pre>{{ 'object' | json }}</pre>
